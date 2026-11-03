@@ -100,8 +100,12 @@ class SetupTests(unittest.TestCase):
         self.assertFalse(self.adapter.profile.exists())
 
     def test_expired_preview_cannot_bind(self):
-        obs=self.setup.observe();self.setup.observation=(obs['observation_id'],0,self.setup.observation[2])
-        with self.assertRaises(SafetyError):self.setup.bind({'observation_id':obs['observation_id'],'account_label':'A','kind':'group','confirm':True})
+        obs=self.setup.observe();issued_at=self.setup.observation[1]
+        # A freshly booted runner may have a monotonic clock below 180 seconds.
+        # Advance from the actual preview time rather than assuming zero is old.
+        with patch('local_setup.time.monotonic',return_value=issued_at+181):
+            with self.assertRaises(SafetyError):self.setup.bind({'observation_id':obs['observation_id'],'account_label':'A','kind':'group','confirm':True})
+        self.assertFalse(self.adapter.profile.exists())
 
     def test_uncertain_send_blocks_account_switch_and_start(self):
         self.bind();self.setup.app.store.delivery('Class group','uncertain','possible outgoing')
