@@ -1,6 +1,6 @@
 # Visual components from pinned ChisBread/wechat-ai; no SQLCipher/database reader.
 rapidocr==3.2.0
-onnxruntime==1.22.0
+onnxruntime==1.31.1
 ultralytics==8.3.161
 mss==10.0.0
 python-xlib==0.33
