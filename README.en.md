@@ -1,6 +1,6 @@
 > **Ubuntu 24.04 local package (developer preview):** run `bash Start.sh`, add your DeepSeek key, log into your chosen WeChat account and bind one conversation in the browser. No spare account is required. See the [Ubuntu guide](docs/UBUNTU.en.md). Existing macOS VM instructions remain available; Linux Favorites sending awaits calibration.
 
-[Download the Ubuntu preview](https://github.com/andyDgreat12345/baguet-ubuntu/releases/tag/v0.2.0-ubuntu-preview.1) · [简体中文](README.md) · [Validation](VALIDATION.json)
+[Download the Ubuntu preview](https://github.com/andyDgreat12345/baguet-ubuntu/releases) · [简体中文](README.md) · [Validation](VALIDATION.json)
 
 # Baguette 🥖 — Big Fat Fish for WeChat
 
