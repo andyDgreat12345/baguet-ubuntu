@@ -7,4 +7,4 @@ python-xlib==0.33
 opencv-python==4.13.0.92
 pyperclip==1.8.2
 pyautogui==0.9.54
-ruamel.yaml==0.18.14
+ruamel.yaml==0.19.1
