@@ -1,5 +1,5 @@
 {
-  "release": "0.2.0-ubuntu-preview.1",
+  "release": "0.2.0-ubuntu-preview.2",
   "date": "2026-11-02",
   "status": "developer_preview_not_live_linux_delivery_acceptance",
   "tested_environment": {
@@ -23,7 +23,7 @@
       "skipped": 6,
       "failed": 0,
       "skip_reason": "macOS-specific process identity checks",
-      "note": "Original Ubuntu packaging baseline before seven later sticker-request regression tests; current Ubuntu rerun pending."
+      "note": "Original full QQ-integrated Ubuntu packaging baseline before seven later sticker-request regression tests. Current lightweight Linux/macOS source CI passed separately; a new full-image QQ-integrated suite remains pending."
     },
     "native_qq_integration_tests": "pass in Ubuntu suite; account/conversation scope, ordinary-contact authority, request-local tools, uncalibrated Linux sticker tool disabled",
     "fresh_qq_configuration": "pass; original AstrBot schemas and four plugins prepared in isolated runtime",
@@ -37,7 +37,19 @@
     "source_privacy_scan": "pass; targeted credential/private-path, unexpected asset, syntax and documentation-link checks",
     "shell_and_browser_javascript_syntax": "pass",
     "ui_preview": "bilingual setup page visually inspected with a simulated adapter; not a real chat test",
-    "macos_sticker_request_recovery": "Live project VM: direct-request batching and sticker-only recognition repaired; original QQ/DeepSeek selected stickers in two isolated probes; new group sticker delivery observed and user confirmed success. This does not validate Linux Favorites sending."
+    "macos_sticker_request_recovery": "Live project VM: direct-request batching and sticker-only recognition repaired; original QQ/DeepSeek selected stickers in two isolated probes; new group sticker delivery observed and user confirmed success. This does not validate Linux Favorites sending.",
+    "github_actions_source_checks": {
+      "status": "pass",
+      "platforms": [
+        "ubuntu-24.04",
+        "macos-15"
+      ],
+      "python": "3.13",
+      "run_url": "https://github.com/andyDgreat12345/baguet-ubuntu/actions/runs/41567140986",
+      "tested_commit": "b646dff052faba783c85b2fa1cb150cf5be1bb27",
+      "scope": "Source tests and targeted release scan; optional original AstrBot integrations may skip. No logged-in WeChat delivery or full model preparation."
+    },
+    "preview_expiry_test": "Deterministic elapsed-time simulation, independent of host uptime; expired previews still cannot bind and create no profile. Corrects a CI-test assumption in preview.1; runtime binding checks unchanged."
   },
   "not_yet_verified": [
     "amd64 image build and actual server-room hardware",
