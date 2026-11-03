@@ -1,0 +1,62 @@
+{
+  "release": "0.2.0-ubuntu-preview.1",
+  "date": "2026-11-02",
+  "status": "developer_preview_not_live_linux_delivery_acceptance",
+  "tested_environment": {
+    "os": "Ubuntu 24.04.5 LTS",
+    "architecture": "arm64",
+    "isolation": "new disposable Linux VM and Docker named volumes; no WeChat account logged in",
+    "vm_resources": "2 vCPU, 4 GiB RAM; startup/test environment, not an inference capacity benchmark",
+    "wechat_package": "official Tencent WeChat Linux 4.1.13.26",
+    "runtime_uid": 10001
+  },
+  "verified": {
+    "ubuntu_docker_image_build": "pass; official client, original QQ dependencies, CPU visual dependencies and OCR model cache installed",
+    "official_wechat_startup": "pass; QR login screen visually inspected after clean container recreation",
+    "setup_api": "pass; responsive health/setup, no configured key or selected chat on first launch",
+    "unconfigured_start_and_login_screen_binding": "blocked as expected; no message sent",
+    "desktop_access": "pass; password-authenticated VNC handshake and same-origin noVNC assets",
+    "worker_recovery": "pass; owned setup worker terminated, supervisor restarted it and retained paused intent",
+    "source_tests_ubuntu": {
+      "total": 147,
+      "passed": 141,
+      "skipped": 6,
+      "failed": 0,
+      "skip_reason": "macOS-specific process identity checks",
+      "note": "Original Ubuntu packaging baseline before seven later sticker-request regression tests; current Ubuntu rerun pending."
+    },
+    "native_qq_integration_tests": "pass in Ubuntu suite; account/conversation scope, ordinary-contact authority, request-local tools, uncalibrated Linux sticker tool disabled",
+    "fresh_qq_configuration": "pass; original AstrBot schemas and four plugins prepared in isolated runtime",
+    "source_tests_macos_core_environment": {
+      "total": 154,
+      "passed": 149,
+      "skipped": 5,
+      "failed": 0,
+      "skip_reason": "optional original AstrBot integrations; original integration coverage ran in the full Ubuntu baseline environment"
+    },
+    "source_privacy_scan": "pass; targeted credential/private-path, unexpected asset, syntax and documentation-link checks",
+    "shell_and_browser_javascript_syntax": "pass",
+    "ui_preview": "bilingual setup page visually inspected with a simulated adapter; not a real chat test",
+    "macos_sticker_request_recovery": "Live project VM: direct-request batching and sticker-only recognition repaired; original QQ/DeepSeek selected stickers in two isolated probes; new group sticker delivery observed and user confirmed success. This does not validate Linux Favorites sending."
+  },
+  "not_yet_verified": [
+    "amd64 image build and actual server-room hardware",
+    "Linux account login and account/chat binding on a logged-in client",
+    "New inbound Linux message through DeepSeek to a visible outgoing bubble and recipient receipt",
+    "Full Linux QQ/Ollama model preparation, image inference and long-term reflection with real traffic",
+    "Observed Linux reply latency and long-running or host-reboot acceptance"
+  ],
+  "unavailable": [
+    "Linux Favorites sticker sending; no calibrated selection/scrolling/delivery implementation"
+  ],
+  "data_boundary": "Source only. No developer keys, logged-in WeChat state, chat logs, personal memories, sticker collection, VM disks or model weights.",
+  "network": "Initial build/model downloads and ongoing DeepSeek access required. A test-only proxy was needed in the validation environment; its address/credentials are not shipped.",
+  "acceptance_on_destination": [
+    "Run bash Start.sh and open the local setup page",
+    "Enter own DeepSeek key and finish Prepare",
+    "Log into the chosen account; open intended chat and confirm binding preview",
+    "Start; send a new directed message from another account and inspect both outgoing bubble and recipient receipt",
+    "Send a new image and verify its actual model interpretation",
+    "Check pause preservation, owned-worker recovery and expired-login behavior before unattended use"
+  ]
+}

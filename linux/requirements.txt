@@ -1,0 +1,10 @@
+# Visual components from pinned ChisBread/wechat-ai; no SQLCipher/database reader.
+rapidocr==3.2.0
+onnxruntime==1.22.0
+ultralytics==8.3.161
+mss==10.0.0
+python-xlib==0.33
+opencv-python==4.13.0.92
+pyperclip==1.8.2
+pyautogui==0.9.54
+ruamel.yaml==0.18.14

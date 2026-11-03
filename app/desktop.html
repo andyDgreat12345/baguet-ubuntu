@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Baguet · WeChat desktop</title>
+<style>body{margin:0;background:#16211e;color:white;font:14px system-ui}header{padding:10px 18px;display:flex;gap:22px;align-items:center}a{color:#c2ecd9}#screen{width:100vw;height:calc(100vh - 46px)}#status{margin-left:auto}</style>
+<header><a href="/">← 设置 / Setup</a><span>在这里登录微信、打开要绑定的聊天 / Log in and open the intended chat</span><span id="status">连接中 / Connecting</span></header><div id="screen"></div>
+<script type="module">
+import RFB from '/novnc/core/rfb.js';
+const response=await fetch('/api/setup',{cache:'no-store'});const config=await response.json();
+const rfb=new RFB(document.getElementById('screen'),'ws://'+location.hostname+':6080',{credentials:{password:config.setup.desktop_password}});
+rfb.scaleViewport=true;rfb.resizeSession=false;
+rfb.addEventListener('connect',()=>document.getElementById('status').textContent='已连接 / Connected');
+rfb.addEventListener('disconnect',()=>document.getElementById('status').textContent='连接断开，请刷新 / Disconnected; refresh');
+</script></html>

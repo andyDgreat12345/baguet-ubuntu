@@ -1,0 +1,24 @@
+BAGUET · Ubuntu 24.04 local package / 本地部署包
+
+Developer preview / 开发预览:
+Ubuntu ARM64 build, setup, official WeChat QR login screen and worker recovery checked.
+Logged-in Linux replies and image interpretation still require end-to-end acceptance.
+已验证构建、面板、扫码界面与工作进程恢复；真实账号收发和识图仍待验收。
+
+Start here / 从这里开始:
+  1. Install Docker Engine + Compose v2 if needed.
+     https://docs.docker.com/engine/install/ubuntu/
+  2. In this folder run: bash Start.sh
+  3. Open http://127.0.0.1:8766
+  4. Save DeepSeek key → Prepare → Open WeChat → log in → open your chat → Read/Bind → Start.
+
+Any account you control; one chosen chat. No spare account is required.
+使用自己选择的微信账号；只在明确绑定的一个会话中自动工作。
+
+Detailed Chinese guide: docs/UBUNTU.zh-CN.md
+English guide: docs/UBUNTU.en.md
+Validation and limitations: VALIDATION.json
+
+Linux Favorites sending still requires calibration. Text replies and visible-image recognition are the first Linux target.
+This is source + installer, not an offline image. First run downloads dependencies and local models.
+Do not include your runtime, Docker volumes, API key or chats when sharing this package.

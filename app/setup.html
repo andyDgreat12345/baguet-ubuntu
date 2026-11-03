@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baguet · 微信聊天伙伴</title>
+<style>
+:root{font:15px/1.6 system-ui,sans-serif;color:#182e35;background:#f4f6f4}*{box-sizing:border-box}body{max-width:1000px;margin:0 auto;padding:35px 22px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}h1{font-size:30px;margin:0}h2{font-size:19px;margin:0 0 16px}p{margin:7px 0 16px}.muted,small{color:#63737b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}section{padding:25px;background:white;border:1px solid #dce3e0;border-radius:14px;margin-bottom:20px}label{display:block;margin:14px 0 6px}input,select,textarea{font:inherit;width:100%;padding:10px;border:1px solid #c5d0cb;border-radius:7px}textarea{min-height:90px;resize:vertical}button,.button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:11px 16px;background:#185d56;color:white;display:inline-block;text-decoration:none;margin:6px 5px 0 0}button.secondary,.button.secondary{background:#edf3f0;color:#244e45}button:disabled{opacity:.45;cursor:default}input[type=checkbox]{width:auto}#notice{padding:14px;border-radius:8px;background:#e3efe8;white-space:pre-wrap}#notice.error{background:#fce7e5;color:#8e332a}#state{background:#e6eeea;border-radius:30px;padding:6px 14px}#state.active{background:#d2ebd6;color:#135727}.wide{grid-column:1/-1}#preview{display:flex;gap:15px;align-items:center;padding:14px;background:#f3f6f4;border-radius:8px}#avatar{max-width:65px;max-height:90px}.pending{border:2px solid #c78040}code{overflow-wrap:anywhere}footer{font-size:12px;color:#6b777b}.row{display:flex;gap:10px;align-items:center}.row>*{flex:1}[hidden]{display:none!important}@media(max-width:720px){.grid{grid-template-columns:1fr}body{padding:20px 13px}section{padding:20px}}
+</style>
+<header><div><h1>Baguet · 大肥鱼</h1><span class="muted">你的微信聊天伙伴 / Your WeChat companion</span></div><span id="state">连接中</span></header>
+<div id="notice" hidden role="status"></div>
+<p>填入 DeepSeek key，登录微信，选定一个聊天。账号由你选择，不要求小号。<br><small>Add your key, log into WeChat with your chosen account, then bind one conversation.</small></p>
+<div class="grid">
+<section><h2>1 · DeepSeek 与性格 / Personality</h2>
+<form id="config-form">
+<label for="key">DeepSeek API key</label><input id="key" type="password" autocomplete="new-password" placeholder="仅保存在这台服务器 / Stored locally"><small id="key-state"></small>
+<div class="row"><div><label for="bot">被叫到的名字 / Bot name</label><input id="bot" value="baguette" required maxlength="100"></div><div><label for="model">DeepSeek model</label><select id="model"><option>deepseek-flash</option><option>deepseek-chat</option><option>deepseek-reasoner</option></select></div></div>
+<label for="style">性格补充 / Character notes</label><textarea id="style" maxlength="4000" placeholder="例：短句、幽默，中英文随群聊语境切换。"></textarea>
+<label for="policy">什么时候回应 / Reply policy</label><select id="policy"><option value="directed">叫到时回应 / Mentions and direct calls</option><option value="active">适度接话 / Selective participation</option></select>
+<details><summary>网络代理 / Proxy</summary><input id="proxy" value="direct" placeholder="direct 或 http://host:port"><small>容器里的127.0.0.1不是宿主机。 / Container loopback is separate from the host.</small></details>
+<button type="submit">保存 / Save</button><button type="button" id="prepare" class="secondary">首次准备 / Prepare</button>
+</form><p id="job" class="muted"></p><small>首次下载需要网络和磁盘空间。记忆和识图模型在本机运行。<br>First preparation downloads local models. Your key is never shown again.</small></section>
+<section><h2>2 · 登录微信，选聊天 / Choose a chat</h2>
+<a id="desktop" class="button secondary" target="_blank" rel="noopener">打开微信桌面 / Open WeChat</a>
+<p class="muted">扫码登录你选择的账号，打开要让 Baguet 工作的群或私聊，再回来点「读取」。<br>Log in, open the intended conversation, then read its preview here.</p>
+<button id="observe">读取当前聊天 / Read current chat</button>
+<div id="binding" hidden>
+<div id="preview"><img id="avatar" alt="当前微信账号预览 / Account preview"><div><small>当前打开 / Open conversation</small><strong id="chat" style="display:block"></strong></div></div>
+<label for="account">当前账号显示名 / Logged-in account name</label><input id="account" maxlength="100" placeholder="填写微信中显示的账号名" required>
+<label for="kind">会话类型 / Conversation type</label><select id="kind"><option value="group">群聊 / Group</option><option value="private">私聊 / Private conversation</option></select>
+<label><input type="checkbox" id="confirm"> 我核对了账号和会话 / I checked this account and chat</label>
+<button id="bind">绑定此聊天 / Bind this chat</button>
+</div>
+<p id="selected" class="muted">尚未选择 / No chat selected</p>
+<small>换聊天：先暂停，在微信里打开新聊天，再读取和绑定。其他聊天不参与自动回复。<br>To change chats, pause, open another conversation, and bind again.</small></section>
+<section class="wide"><h2>3 · 自动聊天 / Run Baguet</h2>
+<p id="readiness" class="muted">等待配置 / Waiting for setup</p>
+<button id="run">开始 / Start</button><button id="check" class="secondary">检查 DeepSeek / Check connection</button>
+<p><small>保留原版 QQ 的分会话记忆和反思；群友不能通过消息改管理设置。私聊与各群分别记忆。<br>Original QQ memory and reflection; separate conversation memories and local-only configuration.</small></p>
+<p><small>Linux 版本可读取可见图片并交给原版 QQ 识图。收藏表情发送尚待 Linux 校准，当前使用文字回应。<br>Visible image recognition uses the original QQ pipeline. Favorites sending awaits Linux calibration.</small></p>
+</section>
+<section id="pending" class="wide pending" hidden><h2>需要核对一次发送 / Inspect an uncertain send</h2><p>先在微信里核对下面的原文。不要重发。 / Check the exact outgoing message in WeChat before resolving it.</p><div id="pending-items"></div></section>
+</div>
+<footer>Ubuntu 24.04 · 本地运行 / Runs locally · 界面只读取可见消息 / Visible messages only · <span id="updated"></span></footer>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);let state=null,obs=null,busy=false,loaded=false;
+function note(text,error=false){$('notice').hidden=!text;$('notice').textContent=text;$('notice').className=error?'error':'';}
+async function api(path,body){const c=new AbortController(),t=setTimeout(()=>c.abort(),90000);try{const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:c.signal,cache:'no-store'});const j=await r.json();if(!r.ok)throw Error(j.error?.message||'Action failed');return j;}finally{clearTimeout(t);}}
+function buttons(){const running=state?.status?.enabled===true;document.querySelectorAll('button').forEach(b=>b.disabled=busy||!!(b.dataset.guard&&!$(b.dataset.guard).checked));document.querySelectorAll('#config-form input,#config-form select,#config-form textarea').forEach(e=>e.disabled=busy||running);$('prepare').disabled=busy||running||state?.setup?.job?.state==='preparing';$('observe').disabled=busy||running;$('bind').disabled=busy||running||!$('confirm').checked;$('run').disabled=busy||(!running&&(!state?.setup?.selected_chat?.length||state?.setup?.job?.state!=='ready'||state?.status?.blockers?.length));$('run').textContent=running?'暂停 / Pause':'开始 / Start';}
+async function action(path,body,success){busy=true;buttons();try{const j=await api(path,body);note(success||'已完成 / Done');return j;}catch(e){note(e.name==='AbortError'?'操作仍可能进行中，请先检查状态 / Timed out; check state before retrying':e.message,true);}finally{busy=false;await refresh();}}
+async function refresh(){if(busy)return;try{state=await api('/api/setup');const s=state.setup,a=state.status;if(!loaded){$('bot').value=s.bot_id;$('model').value=s.deepseek_model;$('style').value=s.persona_note;$('policy').value=s.group_participation;$('proxy').value=s.proxy;$('account').value=s.account_label;loaded=true;}$('desktop').href=s.desktop_url;$('key-state').textContent=s.api_key_configured?'Key 已保存 / Key saved':'尚未填写 / No key saved';$('job').textContent=s.job.step;$('selected').textContent=s.selected_chat.length?'已绑定 / Bound: '+s.account_label+' → '+s.selected_chat.join(', '):'尚未绑定 / Not bound';$('state').textContent=a.enabled?'正在聊天 / Active':'已暂停 / Paused';$('state').className=a.enabled?'active':'';$('readiness').textContent=a.last_error||(a.blockers||[]).join(' · ')||(a.deepseek.connected?'DeepSeek 已连接 / Connected':'准备后验证连接 / Prepare to verify');$('updated').textContent=new Date().toLocaleTimeString();buttons();await pending();}catch(e){$('state').textContent='服务未连接 / Offline';}}
+async function pending(){const data=await api('/api/deliveries');$('pending').hidden=!data.pending.length;const list=$('pending-items');const signature=JSON.stringify(data.pending);if(list.dataset.signature===signature)return;list.dataset.signature=signature;list.replaceChildren();for(const item of data.pending){const box=document.createElement('div'),text=document.createElement('p'),label=document.createElement('label'),check=document.createElement('input'),done=document.createElement('button');text.textContent='#'+item.delivery_id+' — '+item.text;check.type='checkbox';check.id='reconcile-confirm-'+item.delivery_id;done.dataset.guard=check.id;label.append(check,document.createTextNode(' 我已在微信里看到这条出站消息 / I saw this exact outgoing message'));done.textContent='确认已发送 / Mark observed';done.disabled=true;check.onchange=()=>done.disabled=!check.checked;done.onclick=()=>check.checked&&action('/api/reconcile',{delivery_id:item.delivery_id,final_status:'observed'},'已核对，未重发。可重新开始 / Resolved without resending; press Start');box.append(text,label,done);list.append(box);}}
+$('config-form').onsubmit=async e=>{e.preventDefault();const j=await action('/api/setup/save',{api_key:$('key').value,bot_id:$('bot').value,deepseek_model:$('model').value,persona_note:$('style').value,group_participation:$('policy').value,proxy:$('proxy').value},'已保存；首次使用或修改后点准备 / Saved; press Prepare');if(j)$('key').value='';};
+$('prepare').onclick=()=>action('/api/setup/prepare',{},'正在准备，可查看下载状态 / Preparing; this may take several minutes');
+$('observe').onclick=async()=>{const j=await action('/api/setup/observe',{},'请核对预览 / Check the preview');if(j){obs=j;$('binding').hidden=false;$('chat').textContent=j.chat;$('avatar').src=j.account_preview;$('confirm').checked=false;buttons();}};
+$('confirm').onchange=buttons;
+$('bind').onclick=()=>action('/api/setup/bind',{observation_id:obs.observation_id,account_label:$('account').value,kind:$('kind').value,confirm:$('confirm').checked},'已绑定；准备完成后点开始 / Bound; press Start when ready');
+$('run').onclick=()=>action(state.status.enabled?'/api/pause':'/api/start',{},state.status.enabled?'已暂停 / Paused':'已开始，只处理新的消息 / Started; watching new messages');
+$('check').onclick=()=>action('/api/check-model',{},'DeepSeek 连接通过；没有发送微信消息 / Connection passed; no WeChat test message sent');
+refresh();setInterval(refresh,5000);
+</script></html>
