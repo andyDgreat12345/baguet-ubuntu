@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0-ubuntu-preview.2
+
+- Make the expired-binding-preview regression test deterministic on freshly booted CI runners. Runtime binding checks are unchanged.
+- Keep the original preview tag immutable; refresh the downloadable source package and validation evidence.
+
 ## 0.2.0-ubuntu-preview.1
 
 - Keep a direct sticker request attached to its actual speaker when other group messages arrive; recognize common Chinese and English commands and omit sticker-only text prefaces.
