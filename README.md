@@ -1,6 +1,6 @@
 > **Ubuntu 24.04 本地包（开发预览）**：在机房电脑执行 `bash Start.sh`，通过浏览器填写 DeepSeek key、登录自选微信账号并绑定一个聊天。小号不是必要条件。见 [Ubuntu 安装指南](docs/UBUNTU.zh-CN.md)；原 Mac VM 路径仍保留。Linux 收藏表情发送尚未校准。
 
-[下载 Ubuntu 预览包](https://github.com/andyDgreat12345/baguet-ubuntu/releases/tag/v0.2.0-ubuntu-preview.1) · [English](README.en.md) · [验收范围](VALIDATION.json)
+[下载 Ubuntu 预览包](https://github.com/andyDgreat12345/baguet-ubuntu/releases) · [English](README.en.md) · [验收范围](VALIDATION.json)
 
 <div align="center">
 <img src="assets/hero.svg" alt="Baguette — 微信大肥鱼" width="880" />
